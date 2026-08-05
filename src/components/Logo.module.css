@@ -1,0 +1,43 @@
+.logoContainer {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  cursor: pointer;
+}
+
+.logoIcon {
+  width: 42px;
+
+  height: 42px;
+
+  color: #000;
+}
+
+.text {
+  font-size: 22px;
+
+  font-weight: 600;
+
+  letter-spacing: -0.5px;
+
+  color: #1d1d1f;
+
+  white-space: nowrap;
+}
+
+/* mobile */
+
+@media (max-width: 700px) {
+  .logoIcon {
+    width: 36px;
+
+    height: 36px;
+  }
+
+  .text {
+    font-size: 19px;
+  }
+}

@@ -1,25 +1,22 @@
 import Logo from "./Logo";
 import Menu from "./Menu";
 import Button from "./Button";
-import CartContext from "./cartContext";
-import { useContext } from "react";
+import styles from "./Header.module.css";
 
 function Header() {
+  return (
+    <header className={styles.header}>
+      <Logo />
 
-    const { cart } = useContext(CartContext);
-    return (
-        <header>
-            Panier ({cart.length})
-            <Logo />
+      <Menu />
 
-            <Menu />
+      <div className={styles.actions}>
+        <Button text="Connexion" color="black" />
 
-            <Button text="Connexion" color="blue" />
-
-            <Button text="Créer un compte" color="green" />
-            
-        </header>
-    );
+        <Button text="Créer un compte" color="black" />
+      </div>
+    </header>
+  );
 }
 
 export default Header;

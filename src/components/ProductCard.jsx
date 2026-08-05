@@ -2,31 +2,28 @@ import styles from "./ProductCard.module.css";
 import { useContext } from "react";
 import CartContext from "./cartContext";
 
-function ProductCard({ 
-    product
-}) {
+function ProductCard({ product }) {
+  const { addToCart } = useContext(CartContext);
 
-    const { addToCart } = useContext(CartContext);
+  return (
+    <article className={styles.card}>
+      <img src={product.image} alt={product.name} className={styles.image} />
 
-    return (
-        <article className={styles.card}>
+      <small className={styles.category}>{product.category}</small>
 
+      <h3 className={styles.name}>{product.name}</h3>
 
-            <img src={product.image} alt={name} className={styles.image} />
+      <p className={styles.description}>{product.description}</p>
 
-            <small className={styles.category}>{product.category}</small>
+      <strong className={styles.price}>
+        {product.price.toLocaleString("fr-FR")}€
+      </strong>
 
-            <h3 className={styles.name}>{name}</h3>
-
-            <p>{product.description}</p>
-
-            <strong className={styles.price}>{product.price.toLocaleString("fr-FR")}€</strong>
-
-            <button onClick={() => addToCart(product)} className={styles.button}>Ajouter au panier</button>
- 
-
-        </article>
-    );
+      <button onClick={() => addToCart(product)} className={styles.button}>
+        Ajouter au panier
+      </button>
+    </article>
+  );
 }
 
 export default ProductCard;

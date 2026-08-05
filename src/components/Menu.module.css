@@ -1,0 +1,93 @@
+.menu {
+  display: flex;
+
+  align-items: center;
+
+  gap: 35px;
+}
+
+.Logo {
+  font-size: 24px;
+
+  font-weight: 600;
+
+  color: #1d1d1f;
+}
+
+.link {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  text-decoration: none;
+
+  color: #1d1d1f;
+
+  font-size: 16px;
+
+  font-weight: 500;
+
+  transition: all 0.3s ease;
+
+  position: relative;
+}
+
+/* effet hover */
+
+.link:hover {
+  color: #0071e3;
+}
+
+/* petite animation soulignement */
+
+.link::after {
+  content: "";
+
+  position: absolute;
+
+  bottom: -8px;
+
+  left: 0;
+
+  width: 0;
+
+  height: 2px;
+
+  background: #0071e3;
+
+  transition: width 0.3s ease;
+}
+
+.link:hover::after {
+  width: 100%;
+}
+
+/* icônes */
+
+.link svg {
+  font-size: 18px;
+}
+
+/* tablette */
+
+@media (max-width: 1024px) {
+  .menu {
+    gap: 20px;
+  }
+
+  .link {
+    font-size: 15px;
+  }
+}
+
+/* mobile */
+
+@media (max-width: 700px) {
+  .menu {
+    flex-direction: column;
+
+    gap: 15px;
+  }
+}
