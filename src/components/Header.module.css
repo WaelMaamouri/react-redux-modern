@@ -64,6 +64,10 @@
 
   padding: 12px 22px;
 
+  background: black;
+
+  color: white;
+
   font-size: 15px;
 
   transition: transform 0.3s ease;
