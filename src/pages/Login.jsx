@@ -5,10 +5,43 @@ import styles from "./Login.module.css";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (!email || !password) {
+      setError("Veuillez remplir tous les champs.");
+      return;
+    }
+
+    if (password.length < 8) {
+      setError("Le mot de passe doit contenir au moins 8 caractères.");
+      return;
+    }
+
+    if (!/[A-Z]/.test(password)) {
+      setError("Le mot de passe doit contenir au moins une lettre majuscule.");
+      return;
+    }
+
+    if (!/[0-9]/.test(password)) {
+      setError("Le mot de passe doit contenir au moins un chiffre.");
+      return;
+    }
+
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      setError("Le mot de passe doit contenir au moins un caractère spécial.");
+      return;
+    }
+
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+
+    setError("");
     console.log("Email:", email);
     console.log("Mot de passe:", password);
   };
@@ -45,8 +78,10 @@ function Login() {
             />
           </div>
 
-          <button type="submit" className={styles.button}>
-            Se connecter
+          {error && <p className={styles.error}>{error}</p>}
+
+          <button type="submit" className={styles.button} disabled={loading}>
+            {loading ? "Connexion en cours..." : "Se connecter"}
           </button>
         </form>
 
