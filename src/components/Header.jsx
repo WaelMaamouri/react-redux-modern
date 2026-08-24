@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Logo from "./Logo";
 import Menu from "./Menu";
 import Button from "./Button";
@@ -11,9 +12,17 @@ function Header() {
       <Menu />
 
       <div className={styles.actions}>
-        <Button text="Connexion" color="black" />
+        <Link to="/login">
+          <Button text="Connexion" backgroundColor="white" textColor="black" />
+        </Link>
 
-        <Button text="Créer un compte" color="black" />
+        <Link to="/register">
+          <Button
+            text="Créer un compte"
+            backgroundColor="black"
+            textColor="white"
+          />
+        </Link>
       </div>
     </header>
   );
