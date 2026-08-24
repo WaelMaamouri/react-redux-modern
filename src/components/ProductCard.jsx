@@ -19,10 +19,18 @@ function ProductCard({ product }) {
       <strong className={styles.price}>
         {product.price.toLocaleString("fr-FR")}€
       </strong>
+      <div className={styles.actions}>
+        <Link to={`/products/${product.id}`} className={styles.link}>
+          Voir les détails
+        </Link>
 
-      <Link to={`/products/${product.id}`} className={styles.link}>
-        Voir les détails
-      </Link>
+        <button
+          onClick={() => addToCart(product, 1)}
+          className={styles.addButton}
+        >
+          Ajouter au panier
+        </button>
+      </div>
     </article>
   );
 }

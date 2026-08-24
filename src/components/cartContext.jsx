@@ -59,6 +59,10 @@ function CartProvider({ children }) {
     );
   };
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -67,6 +71,7 @@ function CartProvider({ children }) {
         removeFromCart,
         increaseQuantity,
         decreaseQuantity,
+        clearCart,
       }}
     >
       {children}

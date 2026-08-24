@@ -1,9 +1,9 @@
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 import CartContext from "../components/cartContext";
 import styles from "./Cart.module.css";
 
 const formatPrice = (value) => `${value.toLocaleString("fr-FR")} €`;
-
 function ProductItem({
   product,
   increaseQuantity,
@@ -42,7 +42,7 @@ function ProductItem({
           onClick={() => removeFromCart(product.id)}
           className={styles.delete}
         >
-          🗑
+          🗑️
         </button>
       </div>
     </article>
@@ -74,9 +74,9 @@ function OrderSummary({ total }) {
         <strong>{formatPrice(total)}</strong>
       </div>
 
-      <button type="button" className={styles.checkout}>
+      <Link to="/checkout" className={styles.checkout}>
         Commander
-      </button>
+      </Link>
     </section>
   );
 }

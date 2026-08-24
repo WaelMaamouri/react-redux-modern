@@ -11,6 +11,13 @@ function Header() {
 
       <Menu />
 
+      <Link to="/orders" className={styles.orderButton}>
+        <Button
+          text="Mes commandes"
+          backgroundColor="black"
+          textColor="white"
+        />
+      </Link>
       <div className={styles.actions}>
         <Link to="/login">
           <Button text="Connexion" backgroundColor="white" textColor="black" />

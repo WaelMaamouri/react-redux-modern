@@ -6,8 +6,8 @@
     "organization": null,
     "repositoryId": null,
     "repositoryName": null,
-    "createdAt": "2026-08-10T08:18:46.939Z",
-    "updatedAt": "2026-08-10T08:18:46.939Z",
+    "createdAt": "2026-08-24T14:13:23.350Z",
+    "updatedAt": "2026-08-24T14:13:23.350Z",
     "languages": [
       "CSS",
       "HTML",
@@ -836,7 +836,7 @@
     },
     {
       "toolId": "ESLint9",
-      "localConfigurationFile": "/Users/maamouriwael/react-redux-modern/eslint.config.js",
+      "localConfigurationFile": "c:\\Users\\MULTI-10\\react-redux-modern\\eslint.config.js",
       "useLocalConfigurationFile": true,
       "patterns": []
     },
