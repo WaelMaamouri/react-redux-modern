@@ -96,6 +96,21 @@
   text-decoration: underline;
 }
 
+.error {
+  margin-bottom: 15px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #fff0f0;
+  color: #d70015;
+  font-size: 14px;
+  text-align: center;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 @media (max-width: 600px) {
   .card {
     padding: 30px 22px;

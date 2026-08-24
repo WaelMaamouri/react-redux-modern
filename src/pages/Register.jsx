@@ -7,14 +7,48 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
-      alert("Les mots de passe ne correspondent pas !");
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+
+    if (!name || !email || !password || !confirmPassword) {
+      setError("Veuillez remplir tous les champs.");
       return;
     }
+
+    if (password !== confirmPassword) {
+      setError("Les mots de passe ne correspondent pas.");
+      return;
+    }
+
+    if (password.length < 8) {
+      setError("Le mot de passe doit contenir au moins 8 caractères.");
+      return;
+    }
+
+    if (!/[A-Z]/.test(password)) {
+      setError("Le mot de passe doit contenir au moins une lettre majuscule.");
+      return;
+    }
+
+    if (!/[0-9]/.test(password)) {
+      setError("Le mot de passe doit contenir au moins un chiffre.");
+      return;
+    }
+
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      setError("Le mot de passe doit contenir au moins un caractère spécial.");
+      return;
+    }
+
+    setError("");
 
     console.log("Nom :", name);
     console.log("Email :", email);
@@ -83,8 +117,10 @@ function Register() {
             />
           </div>
 
-          <button type="submit" className={styles.button}>
-            S'inscrire
+          {error && <p className={styles.error}>{error}</p>}
+
+          <button type="submit" className={styles.button} disabled={loading}>
+            {loading ? "Inscription en cours..." : "S'inscrire"}
           </button>
         </form>
 

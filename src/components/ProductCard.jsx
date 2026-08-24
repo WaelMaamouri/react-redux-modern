@@ -1,5 +1,6 @@
-import styles from "./ProductCard.module.css";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
+import styles from "./ProductCard.module.css";
 import CartContext from "./cartContext";
 
 function ProductCard({ product }) {
@@ -19,9 +20,9 @@ function ProductCard({ product }) {
         {product.price.toLocaleString("fr-FR")}€
       </strong>
 
-      <button onClick={() => addToCart(product)} className={styles.button}>
-        Ajouter au panier
-      </button>
+      <Link to={`/products/${product.id}`} className={styles.link}>
+        Voir les détails
+      </Link>
     </article>
   );
 }

@@ -1,7 +1,8 @@
 import { useState } from "react";
-import ProductCard from "./ProductCard";
 import products from "../data/products";
 import styles from "./ProductList.module.css";
+import ProductGrid from "./ProductGrid";
+import ProductFilters from "./ProductFilters";
 
 function ProductList() {
   const [search, setSearch] = useState("");
@@ -45,25 +46,16 @@ function ProductList() {
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      <select value={sort} onChange={(e) => setSort(e.target.value)}>
-        <option value=""></option>
-        <option value="price-asc">Prix: Croissant</option>
-        <option value="price-desc">Prix: Décroissant</option>
-        <option value="name-asc">Nom: A-Z</option>
-        <option value="name-desc">Nom: Z-A</option>
-      </select>
+      <ProductFilters
+        search={search}
+        setSearch={setSearch}
+        sort={sort}
+        setSort={setSort}
+        category={category}
+        setCategory={setCategory}
+      />
 
-      <select value={category} onChange={(e) => setCategory(e.target.value)}>
-        <option value="">Toutes les catégories</option>
-        <option value="Smartphone">Smartphone</option>
-        <option value="Ordinateur">Ordinateur</option>
-        <option value="Audio">Audio</option>
-      </select>
-      <div className={styles.productList}>
-        {filteredProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+      <ProductGrid products={filteredProducts} />
     </section>
   );
 }

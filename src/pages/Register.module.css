@@ -80,6 +80,11 @@
   opacity: 0.85;
 }
 
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .login {
   margin-top: 25px;
   text-align: center;
@@ -95,6 +100,16 @@
 
 .login a:hover {
   text-decoration: underline;
+}
+
+.error {
+  margin-bottom: 15px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #fff0f0;
+  color: #d70015;
+  font-size: 14px;
+  text-align: center;
 }
 
 @media (max-width: 600px) {
