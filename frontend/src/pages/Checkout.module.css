@@ -1,0 +1,156 @@
+.checkout {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+.checkout h1 {
+  font-size: 40px;
+  margin-bottom: 40px;
+  color: #1d1d1f;
+}
+
+.order {
+  background: white;
+  padding: 35px;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.order h2 {
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+
+.product {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 15px 0;
+}
+
+.order hr {
+  border: none;
+  border-top: 1px solid #d2d2d7;
+  margin: 20px 0;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 22px;
+}
+
+.confirm {
+  width: 100%;
+  margin-top: 30px;
+  padding: 16px;
+  border: none;
+  border-radius: 30px;
+  background: #000;
+  color: white;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.confirm:hover {
+  background: #333;
+}
+
+.backLink {
+  display: block;
+  margin-top: 20px;
+  color: #000;
+  text-decoration: none;
+  text-align: center;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .checkout {
+    padding: 40px 15px;
+  }
+
+  .checkout h1 {
+    font-size: 32px;
+  }
+
+  .order {
+    padding: 25px 20px;
+  }
+
+  .product {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+.empty {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 100px 20px;
+  text-align: center;
+}
+
+.empty h1 {
+  font-size: 40px;
+  margin-bottom: 15px;
+  color: #1d1d1f;
+}
+
+.empty p {
+  color: #6e6e73;
+  font-size: 17px;
+  margin-bottom: 30px;
+}
+
+.empty .backLink {
+  display: inline-block;
+  margin-top: 0;
+}
+
+.form {
+  margin-bottom: 40px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.field label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1d1d1f;
+}
+
+.field input {
+  width: 100%;
+  padding: 14px 15px;
+  border: 1px solid #d2d2d7;
+  border-radius: 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.field input:focus {
+  border-color: #000;
+}
