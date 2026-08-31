@@ -42,10 +42,6 @@ final class AdminProductController extends AbstractController
 
     $validated = $this->validateProduct($data);
 
-    if ($validated === null) {
-        return $this->json(['error' => 'Données invalides'], JsonResponse::HTTP_BAD_REQUEST);
-    }
-
     if ($validated instanceof JsonResponse) {
         return $validated;
     }
@@ -80,28 +76,90 @@ final class AdminProductController extends AbstractController
 
    private function validateProduct(array $data): array | JsonResponse 
    {
-       $name = trim((string)($data['name'] ?? ''));       
-       $description = trim((string)($data['description'] ?? ''));
-       $image = trim((string)($data['image'] ?? ''));
-       $category = trim((string)($data['category'] ?? ''));
+    if (!isset($data['name'])) {
+        return $this->json(['message' => 'Missing name'], 400);
+    }
 
-        $price = $data['price'] ?? null;
-        $promotion = $data['promotion'] ?? null;
-        $stock = $data['stock'] ?? null;
-     
+        $name = trim((string)($data['name']));       
 
-       if ($name === '' || $description === '' || $image === '' || $category === '' || !is_numeric($price) || !is_numeric($promotion) || !is_numeric($stock)) {
-           return new JsonResponse(['error' => 'Tous les champs sont requis'], JsonResponse::HTTP_BAD_REQUEST);
-       }
+    if ($name === '') {
+        return $this->json(['message' => 'Name cannot be empty'], 400);
+    }
+    
+    if (!isset($data['description'])) {
+        return $this->json(['message' => 'Missing description'], 400);
+    }
+
+       $description = trim((string)($data['description']));
+
+    if ($description === '') {
+        return $this->json(['message' => 'Description cannot be empty'], 400);
+    }
+    if (!isset($data['image'])) {
+        return $this->json(['message' => 'Missing image'], 400);
+    }
+       $image = trim((string)($data['image']));
+    
+    if ($image === '') {
+        return $this->json(['message' => 'Image cannot be empty'], 400);
+    }
+
+
+    if (!isset($data['category'])) {
+        return $this->json(['message' => 'Missing category'], 400);
+    }
+
+       $category = trim((string)($data['category']));
+    
+    if ($category === '') {
+        return $this->json(['message' => 'Category cannot be empty'], 400);
+    }
+    if (!isset($data['price'])) {
+        return $this->json(['message' => 'Missing price'], 400);
+    }
+        $price = trim((string)($data['price']));
+
+    if ($price === '' || !is_numeric($price)) {
+        return $this->json(['message' => 'Invalid price format'], 400);
+    }
+        $price = (float) $price;
+    if ($price < 0 ) {
+        return$this->json(['message' => 'Price cannot be negative'], 400);
+    }
+    if (!isset($data['promotion'])) {
+        return $this->json(['message' => 'Missing promotion'], 400);
+    }
+        $promotion = trim((string)($data['promotion']));
+
+    if ($promotion === '' || !is_numeric($promotion)) {
+        return $this->json(['message' => 'Invalid promotion format'], 400);
+    }
+        $promotion = (float) $promotion;
+    
+    if ($promotion < 0) {
+        return $this->json(['message' => 'Promotion cannot be negative'], 400);
+    }
+    if (!isset($data['stock'])) {
+        return $this->json(['message' => 'Missing stock'], 400);
+    }
+
+    $stock = trim((string)($data['stock']));
+    if ($stock === '' || !is_numeric($stock)) {
+        return $this->json(['message' => 'Invalid stock format'], 400);
+    }
+    $stock = (int) $stock;
+    if ($stock < 0) {
+        return $this->json(['message' => 'Stock cannot be negative'], 400);
+    }     
 
        return [
            'name' => $name,
            'description' => $description,
-           'price' => (float) $price,
+           'price' => $price,
            'image' => $image,
            'category' => $category,
-           'promotion' => (float) $promotion,
-           'stock' => (int) $stock
+           'promotion' => $promotion,
+           'stock' => $stock
        ];
    }
 
@@ -112,12 +170,27 @@ final class AdminProductController extends AbstractController
    {
         $product = $productRepository->find($id);
 
-        if (!product) {
-            return new JsonResponse(['error' => 'Produit non trouvé'], JsonResponse::HTT¨_NOT_FOUND);
+        if (!$product) {
+            return new JsonResponse(['error' => 'Produit non trouvé'], JsonResponse::HTTP_NOT_FOUND);
         }
 
         $data = json_decode($request->getContent(), true);
-        $this->applyUpdates($product, $data);
+
+        if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
+            return new JsonResponse(['error' => 'Données JSON invalides'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        if (empty($data)) {
+            return new JsonResponse(['error' => 'Aucune donnée fournie pour la mise à jour'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        $validatedData = $this->validateProductUpdate($data);
+
+        if ($validatedData instanceof JsonResponse) {
+            return $validatedData;
+        }
+
+        $this->applyUpdates($product, $validatedData);
         $entityManager->flush();
 
         return $this->json([
@@ -134,24 +207,109 @@ final class AdminProductController extends AbstractController
             ]
         ]);
    }
+        
+        private function validateProductUpdate(array $data): array|JsonResponse
+        {
+            $validateData = [];
+
+            if (isset($data['name'])) {
+                $name = trim((string) $data['name']);
+
+                if ($name === '') {
+                    return new JsonResponse(['error' => 'Le nom du produit ne peut pas être vide'], JsonResponse::HTTP_BAD_REQUEST);
+                }
+                $validateData['name'] = $name;
+            }
+            if (isset($data['description'])) {
+                $description = trim((string) $data['description']);
+
+                if ($description === '') {
+                    return new JsonResponse(['error' => 'La description du produit ne peut pas être vide'], JsonResponse::HTTP_BAD_REQUEST);
+                }
+                $validateData['description'] = $description;
+            }
+            if (isset($data['category'])) {
+                $category = trim((string) $data['category']);
+
+                if ($category === '') {
+                    return new JsonResponse(['error' => 'La catégorie du produit ne peut pas être vide'], JsonResponse::HTTP_BAD_REQUEST);
+                }
+                $validateData['category'] = $category;
+            }
+            if (isset($data['price'])) {
+                $price = trim((string) $data['price']);
+                if ($price === '' || !is_numeric($price)) {
+                    return new JsonResponse(['error' => 'Le prix du produit ne peut pas être vide'], JsonResponse::HTTP_BAD_REQUEST);
+                }
+
+                $price = (float) $price;
+
+                if ($price < 0) {
+                    return new JsonResponse(['error' => 'Le prix du produit ne peut pas être négatif'], JsonResponse::HTTP_BAD_REQUEST);
+                }
+
+                $validateData['price'] = $price;
+            }
+
+            if (isset($data['image'])) {
+                $image = trim((string) $data['image']);
+
+                if ($image === '') {
+                    return new JsonResponse(['error' => 'L\'image du produit ne peut pas être vide'], JsonResponse::HTTP_BAD_REQUEST);
+                }
+
+                $validateData['image'] = $image;
+            }
+            if (isset($data['promotion'])) {
+                $promotion = trim((string) $data['promotion']);
+
+                if ($promotion === '' || !is_numeric($promotion)) {
+                    return new JsonResponse(['error' => 'La promotion du produit ne peut pas être vide'], JsonResponse::HTTP_BAD_REQUEST);
+                }
+
+                $validateData['promotion'] = (float) $promotion;
+            
+                if ($promotion < 0) {
+                    return new JsonResponse(['error' => 'La promotion du produit ne peut pas être négative'], JsonResponse::HTTP_BAD_REQUEST);
+                }
+            
+            }
+            if (isset($data['stock'])) {
+                $stock = trim((string) $data['stock']);
+
+                if ($stock === '' || !is_numeric($stock)) {
+                    return new JsonResponse(['error' => 'Le stock du produit ne peut pas être vide'], JsonResponse::HTTP_BAD_REQUEST);
+                }
+                $stock = (int) $stock;
+
+                if ($stock < 0) {
+                    return new JsonResponse(['error' => 'Le stock du produit ne peut pas être négatif'], JsonResponse::HTTP_BAD_REQUEST);
+                }
+                $validateData['stock'] = (int) $stock;
+            
+            }
+
+            return $validateData;
+    
+        }
         private function applyUpdates(Product $product, array $data): void
         {
             if (isset($data['name'])) {
-                $product->setName(trim((string) $data['name']));
+                $product->setName($data['name']);
             }
-                        
-            if (isset($data['name'])) {
-                $product->setName(trim((string) $data['name']));
-            }            
+        
             if (isset($data['description'])) {
-                $product->setDescription(trim((string) $data['description']));
+                $product->setDescription($data['description']);
             }            
             if (isset($data['category'])) {
-                $product->setCategory(trim((string) $data['category']));
+                $product->setCategory($data['category']);
             }            
             if (isset($data['price'])) {
                 $product->setPrice((float) $data['price']);
             }            
+            if (isset($data['image'])) {
+                $product->setImage($data['image']);
+            }
             if (isset($data['promotion'])) {
                 $product->setPromotion((float) $data['promotion']);
             }

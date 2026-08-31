@@ -53,22 +53,4 @@ final class AuthController
         return new JsonResponse(['message' =>'Compte créé avec succès'], Response::HTTP_CREATED);
 
     }
-
-    #[Route('/api/login', name: 'api_login', methods: ['POST'])]
-
-    public function login(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManagerInterface): JsonResponse
-    {
-
-        $user = $this->userRepository->findOneBy(['email'=> $request->request->get('email')]);
-
-        if ($user === null) {
-            return new JsonResponse(['error'=> 'Email ou mot de passe incorrect'], Response::HTTP_BAD_REQUEST);
-        }
-
-        if (!$this->passwordHasher->isPasswordValid($user, $request->request->get('password'))) {
-            return new JsonResponse(['error'=> 'Mot de passe incorrect'], Response::HTTP_BAD_REQUEST);
-        }
-
-    }
-    
 }
