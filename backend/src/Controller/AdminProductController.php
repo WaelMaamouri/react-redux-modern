@@ -21,7 +21,7 @@ final class AdminProductController extends AbstractController
         $data = array_map(function (Product $product): array {
             return [
                 'id'=> $product->getId(),
-                'name'=> $product->getName(),
+                                'name'=> $product->getName(),
                 'price'=> $product->getPrice(),
                 'description'=> $product->getDescription(),
                 'image'=> $product->getImage(),
